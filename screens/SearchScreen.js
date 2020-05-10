@@ -29,16 +29,20 @@ function SearchBar(props) {
   }, [innerSearch]);
  
   return (
-    <TextInput style = {styles.input}
-      underlineColorAndroid = "transparent"
-      placeholder = " Search"
-      placeholderTextColor = "#898989"
-      autoCapitalize = "none"
-      value = {innerSearch}
-      onChangeText = { text => {
-        setInnerSearch(text);
-      }}
-    />
+    <View>
+      {/* <Ionicons name="search1" size={24} color="black" /> */}
+      <Text style={styles.searchLabel}>Type a company name or stock symbol:</Text>
+      <TextInput style = {styles.input}
+        underlineColorAndroid = "transparent"
+        placeholder = " Search"
+        placeholderTextColor = "#898989"
+        autoCapitalize = "none"
+        value = {innerSearch}
+        onChangeText = { text => {
+          setInnerSearch(text);
+        }}
+      />
+    </View>
   );
 }
 
@@ -88,7 +92,10 @@ export default function SearchScreen({ navigation }) {
   useEffect(() => {
     if(search !== "") {
       setStocks(state.filter(stock => {
-        return stock.symbol.toLowerCase().includes( search.toLowerCase() );
+        return (
+          stock.symbol.toLowerCase().includes(search.toLowerCase()) || 
+          stock.name.toLowerCase().includes(search.toLowerCase())
+        );
       }));
     } else {
       setStocks([]);
@@ -116,8 +123,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    margin: 20,
-    height: 35,
+    fontSize: scaleSize(20),
+    color: "white",
+    margin: 10,
+    height: 40,
     borderRadius: 8,
     backgroundColor: "#1E1E1E",
     borderWidth: 1,
@@ -141,5 +150,11 @@ const styles = StyleSheet.create({
     // paddingLeft: 10,
     color: "#898989",
     fontSize: scaleSize(15),
+  },
+  searchLabel: {
+    marginTop: 10,
+    fontSize: scaleSize(14),
+    alignSelf: "center",
+    color: "white",
   }
 });

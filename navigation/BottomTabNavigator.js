@@ -5,6 +5,7 @@ import StocksScreen from '../screens/StocksScreen';
 import SearchScreen from '../screens/SearchScreen';
 import { Button } from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
+import { scaleSize } from '../constants/Layout';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Search';

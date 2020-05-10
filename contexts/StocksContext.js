@@ -36,8 +36,7 @@ export const useStocksContext = () => {
       });
       // store the list to local storage.
       try {
-        // await AsyncStorage.setItem("log", JSON.stringify(state));
-        AsyncStorage.clear();
+        AsyncStorage.setItem("log", JSON.stringify(state));
       } catch {
         alert("There was an error saving.");
       }
@@ -45,14 +44,14 @@ export const useStocksContext = () => {
       alert("The selected stock has been added already.");
     }
 
-    function clearWatchList() {
-      setState(prev => []);
-      try {
-        AsyncStorage.clear();
-      } catch {
-        alert("There was an error removing all logs.");
-      }
-    }
+    // function clearWatchList() {
+    //   setState(prev => []);
+    //   try {
+    //     AsyncStorage.clear();
+    //   } catch {
+    //     alert("There was an error removing all logs.");
+    //   }
+    // }
   }
 
   useEffect(() => {

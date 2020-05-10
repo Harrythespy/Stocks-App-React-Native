@@ -16,7 +16,7 @@ function getStocksDetail(serverURL, symbols) {
                   symbol: stock.symbol,
                   name: stock.name,
                   industry: stock.industry,
-                  open: stock.symbol,
+                  open: stock.open,
                   high: stock.high,
                   low: stock.low,
                   close: stock.close,
@@ -28,23 +28,71 @@ function getStocksDetail(serverURL, symbols) {
 }
 
 function StockList(props) {
+
   function PressHandler(stock) {
-    console.log(stock);
+    if (props.selectedStock) {
+      props.selectedStock(stock)
+    }
   }
-  
+  const PGL = (item) => {
+    var value = ((item.close-item.open)/item.open*100).toFixed(2);
+    if (value > 0 ){
+      return (
+        <View style={[styles.percentageGain, styles.gainLoss]}>
+          <Text style={[styles.labelRight, styles.label]}>
+            {value}%
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={[styles.percentageLoss, styles.gainLoss]}>
+          <Text style={[styles.labelRight, styles.label]}>
+            {value}%
+          </Text>
+        </View>
+      );
+    }
+  }
   return(
     <FlatList 
       data={props.data}
       keyExtractor={(item) => item.symbol}
       renderItem={({item}) => (
-        <TouchableOpacity style={styles.item} onPress={() => PressHandler(item)}>
-          <Text>
-            <Text style={styles.symbolLabel}>{item.symbol}</Text>
-            {/* <Text style={styles.industryLabel}>  {item.}</Text> */}
-          </Text>
+        <TouchableOpacity onPress={() => PressHandler(item)}>
+          <View style={styles.item}>
+              <Text style={styles.label}>{item.symbol}</Text>
+              <Text style={[styles.label, styles.labelRight]}>{item.close}</Text>
+              {PGL(item)}
+          </View>
         </TouchableOpacity>
       )}
     />
+  );
+}
+
+function TabBarInfo(props) {
+  // Display the tab bar information of the selected stock
+  return (
+    <View style={styles.tabBarInfoContainer}>
+      <Text style={[styles.company, styles.row]}>{props.data.name}</Text>
+      <Text style={styles.row}>
+        <Text style={styles.smaleLabel}>OPEN</Text>
+        <Text style={styles.smaleValue}> {props.data.open}</Text>
+        <Text style={styles.smaleLabel}> LOW</Text>
+        <Text style={styles.smaleValue}> {props.data.low}</Text>
+      </Text>
+      <Text style={styles.row}>
+        <Text style={styles.smaleLabel}>CLOSE</Text>
+        <Text style={styles.smaleValue}> {props.data.close}</Text>
+        <Text style={styles.smaleLabel}> HIGHT</Text>
+        <Text style={styles.smaleValue}> {props.data.high}</Text>
+      </Text>
+      <Text style={styles.row}>
+        <Text style={styles.smaleLabel}>VOLUMES</Text>
+        <Text style={styles.smaleValue}> {props.data.volumes}</Text>
+      </Text>
+    </View>
   );
 }
 
@@ -52,15 +100,8 @@ export default function StocksScreen({route, navigation}) {
   const { ServerURL, watchList } = useStocksContext();
   const [state, setState] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedStock, setSelectedStock] = useState({});
   // can put more code here
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button onPress={() => clearWatchList} style={{color: "white"}} title="Delete" />
-      ),
-    });
-  }, [navigation]);
 
   useEffect(() => {
     Promise.all(getStocksDetail(ServerURL, watchList))
@@ -74,7 +115,8 @@ export default function StocksScreen({route, navigation}) {
 
   return (
     <View style={styles.container}>
-      <StockList data={state} />
+      <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
+      {selectedStock && <TabBarInfo data={selectedStock}/>}
       {state.length === 0 && <Text style={styles.emptyLabel}>No Stocks currently added.</Text>}
     </View>
   );
@@ -87,20 +129,88 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   emptyLabel: {
-    color: "white",
-    fontSize: scaleSize(20),
-    padding: 10,
+    flex: 1,
     alignSelf: "center",
     justifyContent: "center",
+    fontSize: scaleSize(20),
   },
   item: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderTopWidth: 0.2,
     borderTopColor: "grey",
-  },
-  symbolLabel: {
+  }, 
+  label: {
+    flex: 1,
     fontSize: scaleSize(20),
-    color: "white",    
+    textAlign: "left",
+    color: "white",
+    justifyContent: "center",
   },
+  labelRight: {
+    textAlign: "right",
+  },
+  gainLoss: {
+    flex: 0.7,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginLeft: 20,
+    paddingHorizontal: 8,
+    paddingVertical: 7,
+    borderRadius: 10,
+  },
+  percentageGain: {
+    backgroundColor: "#EC4B3D",
+  },
+  percentageLoss: {
+    backgroundColor: "#77D572",
+  },
+  tabBarInfoContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    backgroundColor: "#212121",
+    paddingVertical: 12,
+    paddingHorizontal: 17,
+  },
+  company: {
+    flex: 1,
+    width: "100%",
+    color: "white",
+    textAlign: "center",
+    justifyContent: "center",
+    fontSize: scaleSize(20),
+  },
+  smaleLabel: {
+    flex: 0.5,
+    color: "#5A5A5A",
+    fontSize: scaleSize(14),
+  },
+  smaleValue: {
+    flex: 0.5,
+    color: "white",
+    fontSize: scaleSize(16),
+  },
+  row: {
+    flex: 1, 
+    padding: 10,
+    borderWidth: 0.3,
+    borderColor: "white",
+  }, 
   });
