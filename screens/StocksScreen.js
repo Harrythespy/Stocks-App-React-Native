@@ -73,6 +73,10 @@ function StockList(props) {
 
 function TabBarInfo(props) {
   // Display the tab bar information of the selected stock
+  function kFormatter(num) {
+    return Math.abs(num) > 999999 ? Math.sign(num)*((Math.abs(num)/1000000).toFixed(1)) + 'M' : Math.sign(num)*Math.abs(num)
+  }
+
   return (
     <View style={styles.tabBarInfoContainer}>
       <View style={styles.row}>
@@ -101,8 +105,9 @@ function TabBarInfo(props) {
       <View style={styles.row}>
         <View style={styles.column}>
           <Text style={styles.smaleLabel}>VOLUMES</Text>
-          <Text style={[styles.smaleValue, styles.volumes]}> {props.data.volumes}</Text>
+          <Text style={styles.smaleValue}> {kFormatter(props.data.volumes)}</Text>
         </View>
+        <View style={styles.column}/>
       </View>
     </View>
   );
@@ -239,9 +244,5 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     color: "white",
     fontSize: scaleSize(16),
-  },
-  volumes: {
-    flex: 2.5,
-    textAlign: "left",
   }
   });
