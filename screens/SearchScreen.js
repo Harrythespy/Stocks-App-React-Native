@@ -139,9 +139,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
+    flex: 1,
     fontSize: scaleSize(20),
     color: "white",
     padding: 10,
+    borderRadius: 8,
     backgroundColor: "#1E1E1E",
   },
   item: {
