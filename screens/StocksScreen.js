@@ -75,23 +75,35 @@ function TabBarInfo(props) {
   // Display the tab bar information of the selected stock
   return (
     <View style={styles.tabBarInfoContainer}>
-      <Text style={[styles.company, styles.row]}>{props.data.name}</Text>
-      <Text style={styles.row}>
-        <Text style={styles.smaleLabel}>OPEN</Text>
-        <Text style={styles.smaleValue}> {props.data.open}</Text>
-        <Text style={styles.smaleLabel}> LOW</Text>
-        <Text style={styles.smaleValue}> {props.data.low}</Text>
-      </Text>
-      <Text style={styles.row}>
-        <Text style={styles.smaleLabel}>CLOSE</Text>
-        <Text style={styles.smaleValue}> {props.data.close}</Text>
-        <Text style={styles.smaleLabel}> HIGHT</Text>
-        <Text style={styles.smaleValue}> {props.data.high}</Text>
-      </Text>
-      <Text style={styles.row}>
-        <Text style={styles.smaleLabel}>VOLUMES</Text>
-        <Text style={styles.smaleValue}> {props.data.volumes}</Text>
-      </Text>
+      <View style={styles.row}>
+        <Text style={styles.company}>{props.data.name}</Text>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.smaleLabel}>OPEN</Text>
+          <Text style={styles.smaleValue}>{props.data.open}</Text>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.smaleLabel}>LOW</Text>
+          <Text style={styles.smaleValue}>{props.data.low}</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.smaleLabel}>CLOSE</Text>
+          <Text style={styles.smaleValue}> {props.data.close}</Text>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.smaleLabel}> HIGHT</Text>
+          <Text style={styles.smaleValue}> {props.data.high}</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.smaleLabel}>VOLUMES</Text>
+          <Text style={[styles.smaleValue, styles.volumes]}> {props.data.volumes}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -134,6 +146,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontSize: scaleSize(20),
   },
+
+  // Table Cell Properties
   item: {
     flex: 1,
     flexDirection: "row",
@@ -169,7 +183,11 @@ const styles = StyleSheet.create({
   percentageLoss: {
     backgroundColor: "#77D572",
   },
+
+  // Tab bar information properties
   tabBarInfoContainer: {
+    flex: 1,
+    flexDirection: "column",
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -186,7 +204,7 @@ const styles = StyleSheet.create({
       },
     }),
     backgroundColor: "#212121",
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 17,
   },
   company: {
@@ -195,22 +213,35 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     justifyContent: "center",
+    fontWeight: "700",
     fontSize: scaleSize(20),
   },
+  row: {
+    flex: 1, 
+    flexDirection: "row",
+    padding: 10,
+    borderBottomWidth: 0.4,
+    borderBottomColor: "grey",
+  }, 
+  column: {
+    flex: 1,
+    flexDirection: "row",
+    paddingHorizontal: 4,
+  },
   smaleLabel: {
-    flex: 0.5,
+    flex: 1,
     color: "#5A5A5A",
     fontSize: scaleSize(14),
   },
   smaleValue: {
-    flex: 0.5,
+    flex: 1,
+    textAlign: "right",
+    alignSelf: "flex-end",
     color: "white",
     fontSize: scaleSize(16),
   },
-  row: {
-    flex: 1, 
-    padding: 10,
-    borderWidth: 0.3,
-    borderColor: "white",
-  }, 
+  volumes: {
+    flex: 2.5,
+    textAlign: "left",
+  }
   });

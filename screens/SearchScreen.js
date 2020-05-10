@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, FlatList, Text, TouchableOpacity, TextInput /* include other react native components here as needed */ } from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
-import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 // FixMe: implement other components and functions used in SearchScreen here (don't just put all the JSX in SearchScreen below)
 
@@ -30,18 +30,20 @@ function SearchBar(props) {
  
   return (
     <View>
-      {/* <Ionicons name="search1" size={24} color="black" /> */}
       <Text style={styles.searchLabel}>Type a company name or stock symbol:</Text>
-      <TextInput style = {styles.input}
-        underlineColorAndroid = "transparent"
-        placeholder = " Search"
-        placeholderTextColor = "#898989"
-        autoCapitalize = "none"
-        value = {innerSearch}
-        onChangeText = { text => {
-          setInnerSearch(text);
-        }}
-      />
+      <View style={styles.searchSection}>
+        <Feather style={styles.searchIcon} name="search"/>
+        <TextInput style = {styles.input}
+          underlineColorAndroid = "transparent"
+          placeholder = " Search"
+          placeholderTextColor = "#898989"
+          autoCapitalize = "none"
+          value = {innerSearch}
+          onChangeText = { text => {
+            setInnerSearch(text);
+          }}
+        />
+      </View> 
     </View>
   );
 }
@@ -55,20 +57,22 @@ function StockList(props) {
     props.navigation.navigate('Stocks');
   }
   return(
-    <FlatList 
-      data={props.data}
-      keyExtractor={(item) => item.symbol}
-      renderItem={({item}) => (
-        
-        <TouchableOpacity style={styles.item} onPress={() => PressHandler(item.symbol)}>
-          <Text>
-            <Text style={styles.symbolLabel}>{item.symbol}</Text>
-            <Text style={styles.industryLabel}>  {item.industry}</Text>
-          </Text>
-          <Text style={styles.companyLabel}>{item.name}</Text>
-        </TouchableOpacity>
-      )}
-    />
+    <View>
+      <FlatList 
+        data={props.data}
+        keyExtractor={(item) => item.symbol}
+        renderItem={({item}) => (
+          
+          <TouchableOpacity style={styles.item} onPress={() => PressHandler(item.symbol)}>
+            <Text>
+              <Text style={styles.symbolLabel}>{item.symbol}</Text>
+              <Text style={styles.industryLabel}>  {item.industry}</Text>
+            </Text>
+            <Text style={styles.companyLabel}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
   );
 }
 
@@ -122,14 +126,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  searchSection: {
+    flexDirection: "row",
+    backgroundColor: "#1E1E1E",
+    margin: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  searchIcon: {
+    fontSize: scaleSize(20),
+    color: "white",
+    padding: 10,
+  },
   input: {
     fontSize: scaleSize(20),
     color: "white",
-    margin: 10,
-    height: 40,
-    borderRadius: 8,
+    padding: 10,
     backgroundColor: "#1E1E1E",
-    borderWidth: 1,
   },
   item: {
     paddingHorizontal: 20,

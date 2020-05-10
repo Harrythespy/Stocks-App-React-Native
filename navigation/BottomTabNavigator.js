@@ -14,6 +14,9 @@ export default function BottomTabNavigator({ navigation, route }) {
 
   navigation.setOptions({ 
     headerTitle: getHeaderTitle(route),
+    // headerTitleStyle: {
+    //   fontSize: scaleSize(20),
+    // },
   });
   
   return (
