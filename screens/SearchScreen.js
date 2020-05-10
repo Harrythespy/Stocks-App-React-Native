@@ -13,12 +13,11 @@ function getStocks(serverUrl) {
       .then(res => res.json())
       .then(stocks => stocks.map( stock => {
         return {
-            symbol: stock.symbol,
-            name: stock.name,
-            industry: stock.industry
-            };
-        })
-    );
+          symbol: stock.symbol,
+          name: stock.name,
+          industry: stock.industry
+        };
+      }));
 }
 
 function SearchBar(props) {
@@ -28,7 +27,7 @@ function SearchBar(props) {
       props.seatchedItem(innerSearch);
     }
   }, [innerSearch]);
-
+ 
   return (
     <TextInput style = {styles.input}
       underlineColorAndroid = "transparent"
@@ -44,16 +43,19 @@ function SearchBar(props) {
 }
 
 function StockList(props) {
-  
-  function PressHandler(symbol) {
-    return(console.log(symbol));
-  }
 
+  function PressHandler(symbol) {
+    // Add the selected symbol to watch list
+    props.addToWatchlist(symbol);
+    // Navigate to Stock page.
+    props.navigation.navigate('Stocks');
+  }
   return(
     <FlatList 
       data={props.data}
       keyExtractor={(item) => item.symbol}
       renderItem={({item}) => (
+        
         <TouchableOpacity style={styles.item} onPress={() => PressHandler(item.symbol)}>
           <Text>
             <Text style={styles.symbolLabel}>{item.symbol}</Text>
@@ -72,7 +74,6 @@ export default function SearchScreen({ navigation }) {
   const [stocks, setStocks] = useState([]);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  // can put more code here
   useEffect(() => {
     // FixMe: fetch symbol names from the server and save in local SearchScreen state
     getStocks(ServerURL)
@@ -101,8 +102,8 @@ export default function SearchScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <SearchBar seatchedItem={v => setSearch(v)}/>
-        <StockList data={stocks}/>
+        <SearchBar seatchedItem={v => setSearch(v)} navigation={navigation} />
+        <StockList data={stocks} navigation={navigation} addToWatchlist={addToWatchlist} />
       </View>
     </TouchableWithoutFeedback>    
   )

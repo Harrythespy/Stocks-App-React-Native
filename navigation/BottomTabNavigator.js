@@ -3,14 +3,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import StocksScreen from '../screens/StocksScreen';
 import SearchScreen from '../screens/SearchScreen';
+import { Button } from 'react-native';
+import { useStocksContext } from '../contexts/StocksContext';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Search';
 
 export default function BottomTabNavigator({ navigation, route }) {
 
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-
+  navigation.setOptions({ 
+    headerTitle: getHeaderTitle(route),
+  });
+  
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
