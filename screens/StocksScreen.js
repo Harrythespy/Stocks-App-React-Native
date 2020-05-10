@@ -40,7 +40,7 @@ function StockList(props) {
       return (
         <View style={[styles.percentageGain, styles.gainLoss]}>
           <Text style={[styles.labelRight, styles.label]}>
-            {value}%
+            +{value}%
           </Text>
         </View>
       );
@@ -183,10 +183,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   percentageGain: {
-    backgroundColor: "#EC4B3D",
+    backgroundColor: "#77D572",
   },
   percentageLoss: {
-    backgroundColor: "#77D572",
+    backgroundColor: "#EC4B3D",
   },
 
   // Tab bar information properties
