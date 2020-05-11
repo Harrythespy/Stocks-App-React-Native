@@ -8,10 +8,10 @@ import { scaleSize } from '../constants/Layout';
 function getStocksDetail(serverURL, symbols) {
   return (
     symbols.map( symbol => {
-      const url = `${serverURL}/stocks/${symbol}`;
+      const url = `${serverURL}/history?symbol=${symbol}`;
       return fetch(url)
               .then(res => res.json())
-              .then(stock => {
+              .then(stocks => stocks.map(stock => {
                 return {
                   symbol: stock.symbol,
                   name: stock.name,
@@ -22,16 +22,20 @@ function getStocksDetail(serverURL, symbols) {
                   close: stock.close,
                   volumes: stock.volumes,
                 }
-              });
+              }));
     })
   );
 }
 
 function StockList(props) {
+  // Get the latest history of each stock
+  const latestHisotry = props.data.map( stock => {
+    return stock[0];
+  });
 
   function PressHandler(stock) {
     if (props.selectedStock) {
-      props.selectedStock(stock)
+      props.selectedStock(stock);
     }
   }
   const PGL = (item) => {
@@ -56,7 +60,7 @@ function StockList(props) {
   }
   return(
     <FlatList 
-      data={props.data}
+      data={latestHisotry}
       keyExtractor={(item) => item.symbol}
       renderItem={({item}) => (
         <TouchableOpacity onPress={() => PressHandler(item)}>
@@ -73,6 +77,7 @@ function StockList(props) {
 
 function TabBarInfo(props) {
   // Display the tab bar information of the selected stock
+
   function kFormatter(num) {
     return Math.abs(num) > 999999 ? Math.sign(num)*((Math.abs(num)/1000000).toFixed(1)) + 'M' : Math.sign(num)*Math.abs(num)
   }
@@ -119,7 +124,7 @@ export default function StocksScreen({route, navigation}) {
   const [error, setError] = useState(null);
   const [selectedStock, setSelectedStock] = useState({});
   // can put more code here
-
+  
   useEffect(() => {
     Promise.all(getStocksDetail(ServerURL, watchList))
     .then(stocks => setState(stocks))
@@ -133,7 +138,7 @@ export default function StocksScreen({route, navigation}) {
   return (
     <View style={styles.container}>
       <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
-      {selectedStock && <TabBarInfo data={selectedStock}/>}
+      {selectedStock !== {}? <TabBarInfo data={selectedStock}/>: null}
       {state.length === 0 && <Text style={styles.emptyLabel}>No Stocks currently added.</Text>}
     </View>
   );

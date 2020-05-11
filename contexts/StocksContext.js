@@ -42,6 +42,7 @@ export const useStocksContext = () => {
       }
     } else {
       alert("The selected stock has been added already.");
+      
     }
 
     // function clearWatchList() {
@@ -59,5 +60,5 @@ export const useStocksContext = () => {
     loadFromDisk();
   }, []);
 
-  return { ServerURL: 'http://131.181.190.87:3000', watchList: state,  addToWatchlist };
+  return { ServerURL: 'http://131.181.190.87:3001', watchList: state,  addToWatchlist };
 };

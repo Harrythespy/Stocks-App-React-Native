@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 // FixMe: implement other components and functions used in SearchScreen here (don't just put all the JSX in SearchScreen below)
 
 function getStocks(serverUrl) {
-  const url = `${serverUrl}/stocks/symbols`;
+  const url = `${serverUrl}/all`;
   
   return fetch(url)
       .then(res => res.json())
