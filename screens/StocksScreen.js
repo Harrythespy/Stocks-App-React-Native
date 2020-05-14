@@ -148,12 +148,12 @@ export default function StocksScreen({route, navigation}) {
     // Handling error occurred when fetching data from url.
     return <Text style={styles.emptyLabel}>Error fecthing data: {error}</Text>
   }
-
+  
   return (
     <View style={styles.container}>
       <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
       {selectedStock && Object.keys(selectedStock).length === 0? null : <TabBarInfo data={selectedStock}/>}
-      {state.length === 0 && <Text style={styles.emptyLabel}>No Stocks currently added.</Text>}
+      {state.length === 0 && <Text style={styles.emptyLabel}>No stocks currently added.</Text>}
     </View>
   );
 }
@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
 
   emptyLabel: {
     flex: 1,
+    color: "white",
     alignSelf: "center",
     justifyContent: "center",
     fontSize: scaleSize(20),

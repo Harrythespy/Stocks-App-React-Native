@@ -3,14 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import StocksScreen from '../screens/StocksScreen';
 import SearchScreen from '../screens/SearchScreen';
-import { Button } from 'react-native';
-import { useStocksContext } from '../contexts/StocksContext';
+import { Button, AsyncStorage } from 'react-native';
 import { scaleSize } from '../constants/Layout';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Search';
 
 export default function BottomTabNavigator({ navigation, route }) {
+  
   navigation.setOptions({ 
     headerTitle: getHeaderTitle(route),
     headerTitleStyle: {
@@ -22,7 +22,11 @@ export default function BottomTabNavigator({ navigation, route }) {
     React.useLayoutEffect(() => {
       navigation.setOptions({
         headerRight: () => (
-          <Button style={{color:"white", margin: 5}} onPress={() => alert("Delete button")} title="Delete" />
+          <Button 
+            onPress={async() => {
+              await AsyncStorage.setItem("log", JSON.stringify([]));
+              alert("Stocks have been removed.");
+            }} title="Delete" />
         ),
       });
     }, []);

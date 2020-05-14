@@ -45,15 +45,6 @@ export const useStocksContext = () => {
       alert("The selected stock has been added already.");
       
     }
-
-    // function clearWatchList() {
-    //   setState(prev => []);
-    //   try {
-    //     AsyncStorage.clear();
-    //   } catch {
-    //     alert("There was an error removing all logs.");
-    //   }
-    // }
   }
 
   useEffect(() => {
