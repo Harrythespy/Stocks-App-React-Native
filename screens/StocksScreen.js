@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity /* include other react-native components here as needed */ } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, /* include other react-native components here as needed */ 
+Button} from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
 
@@ -94,6 +95,7 @@ function TabBarInfo(props) {
 
   return (
     <View style={styles.tabBarInfoContainer}>
+      {/* <Text style={styles.closeButton}></Text> */}
       <View style={styles.row}>
         <Text style={styles.company}>{props.data.name}</Text>
       </View>
@@ -146,7 +148,7 @@ export default function StocksScreen({route, navigation}) {
     // Handling error occurred when fetching data from url.
     return <Text style={styles.emptyLabel}>Error fecthing data: {error}</Text>
   }
-  console.log(selectedStock);
+
   return (
     <View style={styles.container}>
       <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
@@ -229,8 +231,13 @@ const styles = StyleSheet.create({
       },
     }),
     backgroundColor: "#212121",
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 17,
+  },
+  closeButton: {
+    position: "absolute",
+    right: 0,
+    top: 0
   },
   company: {
     flex: 1,
@@ -244,7 +251,7 @@ const styles = StyleSheet.create({
   row: {
     flex: 1, 
     flexDirection: "row",
-    padding: 10,
+    padding: 8,
     borderBottomWidth: 0.4,
     borderBottomColor: "grey",
   }, 
@@ -252,6 +259,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     paddingHorizontal: 4,
+    alignItems: "baseline",
   },
   smaleLabel: {
     flex: 1,

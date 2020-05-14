@@ -11,13 +11,22 @@ const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Search';
 
 export default function BottomTabNavigator({ navigation, route }) {
-
   navigation.setOptions({ 
     headerTitle: getHeaderTitle(route),
-    // headerTitleStyle: {
-    //   fontSize: scaleSize(20),
-    // },
+    headerTitleStyle: {
+      fontSize: scaleSize(20),
+    },
   });
+
+  if (getHeaderTitle(route) === "Stocks") {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <Button style={{color:"white", margin: 5}} onPress={() => alert("Delete button")} title="Delete" />
+        ),
+      });
+    }, []);
+  }
   
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
