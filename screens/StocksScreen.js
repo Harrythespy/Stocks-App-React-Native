@@ -6,6 +6,7 @@ import { scaleSize } from '../constants/Layout';
 
 // FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
 function getStocksDetail(serverURL, symbols) {
+  // Fetch each symbol in watchlist from the server url
   return (
     symbols.map( symbol => {
       const url = `${serverURL}/history?symbol=${symbol}`;
@@ -34,13 +35,17 @@ function StockList(props) {
   });
 
   function PressHandler(stock) {
+    // Handle the onPress event on the list
     if (props.selectedStock) {
       props.selectedStock(stock);
     }
   }
+
   const PGL = (item) => {
+    // Rounding the number to keep only two decimals
     var value = ((item.close-item.open)/item.open*100).toFixed(2);
     if (value > 0 ){
+      // If the value is greater than 0, return percentage gain
       return (
         <View style={[styles.percentageGain, styles.gainLoss]}>
           <Text style={[styles.labelRight, styles.label]}>
@@ -49,6 +54,7 @@ function StockList(props) {
         </View>
       );
     } else {
+      // If the value is smaller than 0, return percentage loss
       return (
         <View style={[styles.percentageLoss, styles.gainLoss]}>
           <Text style={[styles.labelRight, styles.label]}>
@@ -58,20 +64,23 @@ function StockList(props) {
       );
     }
   }
+
   return(
-    <FlatList 
-      data={latestHisotry}
-      keyExtractor={(item) => item.symbol}
-      renderItem={({item}) => (
-        <TouchableOpacity onPress={() => PressHandler(item)}>
-          <View style={styles.item}>
-              <Text style={styles.label}>{item.symbol}</Text>
-              <Text style={[styles.label, styles.labelRight]}>{item.close}</Text>
-              {PGL(item)}
-          </View>
-        </TouchableOpacity>
-      )}
-    />
+    <View style={styles.listView}>
+      <FlatList 
+        data={latestHisotry}
+        keyExtractor={(item) => item.symbol}
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => PressHandler(item)}>
+            <View style={styles.item}>
+                <Text style={styles.label}>{item.symbol}</Text>
+                <Text style={[styles.label, styles.labelRight]}>{item.close}</Text>
+                {PGL(item)}
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
   );
 }
 
@@ -79,6 +88,7 @@ function TabBarInfo(props) {
   // Display the tab bar information of the selected stock
 
   function kFormatter(num) {
+    // Format the number of volumes
     return Math.abs(num) > 999999 ? Math.sign(num)*((Math.abs(num)/1000000).toFixed(1)) + 'M' : Math.sign(num)*Math.abs(num)
   }
 
@@ -126,19 +136,21 @@ export default function StocksScreen({route, navigation}) {
   // can put more code here
   
   useEffect(() => {
+    // Store the list of symbol hisotry into state
     Promise.all(getStocksDetail(ServerURL, watchList))
     .then(stocks => setState(stocks))
     .catch(e => setError(e));
   }, [watchList]);
 
   if (error) {
+    // Handling error occurred when fetching data from url.
     return <Text style={styles.emptyLabel}>Error fecthing data: {error}</Text>
   }
-
+  console.log(selectedStock);
   return (
     <View style={styles.container}>
       <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
-      {selectedStock !== {}? <TabBarInfo data={selectedStock}/>: null}
+      {selectedStock && Object.keys(selectedStock).length === 0? null : <TabBarInfo data={selectedStock}/>}
       {state.length === 0 && <Text style={styles.emptyLabel}>No Stocks currently added.</Text>}
     </View>
   );
@@ -150,6 +162,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  listView: {
+    flex: 1,
+  },
+
   emptyLabel: {
     flex: 1,
     alignSelf: "center",
@@ -196,9 +212,8 @@ const styles = StyleSheet.create({
 
   // Tab bar information properties
   tabBarInfoContainer: {
-    flex: 1,
+    flex: 0.3,
     flexDirection: "column",
-    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,

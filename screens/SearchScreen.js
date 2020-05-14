@@ -7,8 +7,8 @@ import { Feather } from '@expo/vector-icons';
 // FixMe: implement other components and functions used in SearchScreen here (don't just put all the JSX in SearchScreen below)
 
 function getStocks(serverUrl) {
+  // Fetch list of stocks from server url
   const url = `${serverUrl}/all`;
-  
   return fetch(url)
       .then(res => res.json())
       .then(stocks => stocks.map( stock => {
@@ -21,8 +21,10 @@ function getStocks(serverUrl) {
 }
 
 function SearchBar(props) {
+  // Display the search component at the top of the page.
   const [innerSearch, setInnerSearch] = useState("");
   useEffect(() => {
+    // if the property exist then return state value.
     if(props.seatchedItem) {
       props.seatchedItem(innerSearch);
     }
@@ -49,8 +51,10 @@ function SearchBar(props) {
 }
 
 function StockList(props) {
-
+  // Display the list of stocks with Flatlist component. 
+  
   function PressHandler(symbol) {
+    // onPress handler of the Flatlist
     // Add the selected symbol to watch list
     props.addToWatchlist(symbol);
     // Navigate to Stock page.
@@ -95,6 +99,7 @@ export default function SearchScreen({ navigation }) {
 
   useEffect(() => {
     if(search !== "") {
+      // Store the filtered stocks into state when textInput has value.
       setStocks(state.filter(stock => {
         return (
           stock.symbol.toLowerCase().includes(search.toLowerCase()) || 
@@ -102,11 +107,13 @@ export default function SearchScreen({ navigation }) {
         );
       }));
     } else {
+      // Initialise the textInput when it is empty.
       setStocks([]);
     }
   }, [search]);
 
   if(error) {
+    // Handling error occurred when fetching data from url.
     return <View><Text>Error occurred: {error}</Text></View>
   }
 

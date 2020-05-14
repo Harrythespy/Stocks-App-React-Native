@@ -18,6 +18,7 @@ export const useStocksContext = () => {
 
   // can put more code here
   async function loadFromDisk() {
+    // Load existing data from local storage.
     try {
       const dataFromDisk = await AsyncStorage.getItem("log");
       if (dataFromDisk != null) setState(JSON.parse(dataFromDisk));
