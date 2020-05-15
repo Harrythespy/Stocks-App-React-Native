@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, /* include other react-native components here as needed */ 
-Button} from 'react-native';
+RefreshControl,
+AsyncStorage} from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
 
@@ -30,17 +31,24 @@ function getStocksDetail(serverURL, symbols) {
 }
 
 function StockList(props) {
+  const [refresh, setRefresh] = useState(false);
   // Get the latest history of each stock
   const latestHisotry = props.data.map( stock => {
     return stock[0];
   });
 
-  function PressHandler(stock) {
+  function pressHandler(stock) {
     // Handle the onPress event on the list
     if (props.selectedStock) {
       props.selectedStock(stock);
     }
   }
+  
+  const refreshHandler = () => {
+    setRefresh(true);
+    
+    setRefresh(false);
+  };
 
   const PGL = (item) => {
     // Rounding the number to keep only two decimals
@@ -72,7 +80,7 @@ function StockList(props) {
         data={latestHisotry}
         keyExtractor={(item) => item.symbol}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => PressHandler(item)}>
+          <TouchableOpacity onPress={() => pressHandler(item)}>
             <View style={styles.item}>
                 <Text style={styles.label}>{item.symbol}</Text>
                 <Text style={[styles.label, styles.labelRight]}>{item.close}</Text>
@@ -80,6 +88,8 @@ function StockList(props) {
             </View>
           </TouchableOpacity>
         )}
+        refreshing={refresh}
+        onRefresh={refreshHandler}
       />
     </View>
   );
@@ -95,7 +105,6 @@ function TabBarInfo(props) {
 
   return (
     <View style={styles.tabBarInfoContainer}>
-      {/* <Text style={styles.closeButton}></Text> */}
       <View style={styles.row}>
         <Text style={styles.company}>{props.data.name}</Text>
       </View>

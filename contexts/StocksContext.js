@@ -31,13 +31,15 @@ export const useStocksContext = () => {
     //FixMe: add the new symbol to the watchlist, save it in useStockContext state and persist to AsyncStorage
     if (!state.includes(newSymbol)) {
       // if new symbol does not exist in watch list.
-      // add it into the list.
-      setState( prev => {
-        return prev.concat(newSymbol);
-      });
-      // store the list to local storage.
+      // update the list by adding new symbol.
+      const newState = prev => {
+        prev = prev.concat(newSymbol);
+        return [...prev];
+      };
       try {
-        AsyncStorage.setItem("log", JSON.stringify(state));
+        // store the list to local storage.
+        AsyncStorage.setItem("log", JSON.stringify(newState(state)));
+        setState(newState(state));
       } catch {
         alert("There was an error saving.");
       }

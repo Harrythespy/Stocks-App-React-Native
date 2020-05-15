@@ -86,6 +86,7 @@ export default function SearchScreen({ navigation }) {
   const [stocks, setStocks] = useState([]);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
+  
   useEffect(() => {
     // FixMe: fetch symbol names from the server and save in local SearchScreen state
     getStocks(ServerURL)

@@ -10,17 +10,15 @@ const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Search';
 
 export default function BottomTabNavigator({ navigation, route }) {
+  let page = getHeaderTitle(route);
   
-  navigation.setOptions({ 
-    headerTitle: getHeaderTitle(route),
-    headerTitleStyle: {
-      fontSize: scaleSize(20),
-    },
-  });
-
-  if (getHeaderTitle(route) === "Stocks") {
-    React.useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
+    if (page === "Stocks") {
       navigation.setOptions({
+        headerTitle: getHeaderTitle(route),
+        headerTitleStyle: {
+          fontSize: scaleSize(20),
+        },
         headerRight: () => (
           <Button 
             onPress={async() => {
@@ -29,9 +27,17 @@ export default function BottomTabNavigator({ navigation, route }) {
             }} title="Delete" />
         ),
       });
-    }, []);
-  }
-  
+    } else {
+      navigation.setOptions({ 
+        headerTitle: getHeaderTitle(route),
+        headerTitleStyle: {
+          fontSize: scaleSize(20),
+        },
+        headerRight: null,
+      });
+    }
+  }, [page]);
+
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
