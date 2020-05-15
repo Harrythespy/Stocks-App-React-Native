@@ -53,7 +53,7 @@ function SearchBar(props) {
 function StockList(props) {
   // Display the list of stocks with Flatlist component. 
   
-  function PressHandler(symbol) {
+  const pressHandler = (symbol) => {
     // onPress handler of the Flatlist
     // Add the selected symbol to watch list
     props.addToWatchlist(symbol);
@@ -67,7 +67,7 @@ function StockList(props) {
         keyExtractor={(item) => item.symbol}
         renderItem={({item}) => (
           
-          <TouchableOpacity style={styles.item} onPress={() => PressHandler(item.symbol)}>
+          <TouchableOpacity style={styles.item} onPress={() => pressHandler(item.symbol)}>
             <Text>
               <Text style={styles.symbolLabel}>{item.symbol}</Text>
               <Text style={styles.industryLabel}>  {item.industry}</Text>

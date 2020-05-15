@@ -37,7 +37,7 @@ function StockList(props) {
     return stock[0];
   });
 
-  function pressHandler(stock) {
+  const pressHandler = (stock) => {
     // Handle the onPress event on the list
     if (props.selectedStock) {
       props.selectedStock(stock);
@@ -46,7 +46,7 @@ function StockList(props) {
   
   const refreshHandler = () => {
     setRefresh(true);
-    
+    console.log("Refresh");
     setRefresh(false);
   };
 
@@ -98,7 +98,7 @@ function StockList(props) {
 function TabBarInfo(props) {
   // Display the tab bar information of the selected stock
 
-  function kFormatter(num) {
+  const kFormatter = (num) => {
     // Format the number of volumes
     return Math.abs(num) > 999999 ? Math.sign(num)*((Math.abs(num)/1000000).toFixed(1)) + 'M' : Math.sign(num)*Math.abs(num)
   }
