@@ -4,8 +4,6 @@ RefreshControl,
 AsyncStorage} from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
-
-
 // FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
 function getStocksDetail(serverURL, symbols) {
   // Fetch each symbol in watchlist from the server url
@@ -29,13 +27,30 @@ function getStocksDetail(serverURL, symbols) {
     })
   );
 }
+function StockChart(props) {
+  const data = {
+    datasets: [
+      {
+        data: props.data.map(history => history.close),
+      }
+    ]
+  };
+
+  console.log(data);
+  return(
+    <View style={styles.lineChart}>
+    
+    </View>
+  );
+}
 
 function StockList(props) {
   const [refresh, setRefresh] = useState(false);
+  const [refreshList, setRefreshList] = useState([]);
   // Get the latest history of each stock
-  const latestHisotry = props.data.map( stock => {
-    return stock[0];
-  });
+  // const latestHisotry = props.data.map( stock => {
+  //   return stock[0];
+  // });
 
   const pressHandler = (stock) => {
     // Handle the onPress event on the list
@@ -44,9 +59,17 @@ function StockList(props) {
     }
   }
   
-  const refreshHandler = () => {
+  const refreshHandler = async() => {
     setRefresh(true);
     console.log("Refresh");
+    // try {
+    //   const dataFromDisk = await AsyncStorage.getItem("log");
+    //   if (dataFromDisk != null) setRefreshList(JSON.parse(dataFromDisk));
+    // } catch {
+    //   alert("Disk corrupted");
+    // }
+    // console.log(refreshList);
+    // if (props.refreshList) props.refreshList(refreshList);
     setRefresh(false);
   };
 
@@ -57,7 +80,7 @@ function StockList(props) {
       // If the value is greater than 0, return percentage gain
       return (
         <View style={[styles.percentageGain, styles.gainLoss]}>
-          <Text style={[styles.labelRight, styles.label]}>
+          <Text style={[styles.rightLabel, styles.glLabel]}>
             +{value}%
           </Text>
         </View>
@@ -66,7 +89,7 @@ function StockList(props) {
       // If the value is smaller than 0, return percentage loss
       return (
         <View style={[styles.percentageLoss, styles.gainLoss]}>
-          <Text style={[styles.labelRight, styles.label]}>
+          <Text style={[styles.rightLabel, styles.glLabel]}>
             {value}%
           </Text>
         </View>
@@ -77,14 +100,22 @@ function StockList(props) {
   return(
     <View style={styles.listView}>
       <FlatList 
-        data={latestHisotry}
-        keyExtractor={(item) => item.symbol}
+        data={props.data}
+        keyExtractor={(item) => item[0].symbol}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => pressHandler(item)}>
+          <TouchableOpacity onPress={() => pressHandler(item[0])}>
             <View style={styles.item}>
-                <Text style={styles.label}>{item.symbol}</Text>
-                <Text style={[styles.label, styles.labelRight]}>{item.close}</Text>
-                {PGL(item)}
+                <View style={styles.rowColumnLeft}>
+                  <Text style={styles.symbolTitle}>{item[0].symbol}</Text>
+                  <Text style={styles.companyName} numberOfLines={1}>{item[0].name}</Text>
+                </View>
+                <View style={styles.rowColumnRight}>
+                  <StockChart data={item}/>
+                </View> 
+                <View style={styles.rowColumnRight}>
+                  <Text style={styles.rightLabel}>{item[0].close}</Text>
+                  {PGL(item[0])}
+                </View>
             </View>
           </TouchableOpacity>
         )}
@@ -144,13 +175,17 @@ export default function StocksScreen({route, navigation}) {
   const [state, setState] = useState([]);
   const [error, setError] = useState(null);
   const [selectedStock, setSelectedStock] = useState({});
-  // can put more code here
+  const [refreshList, setRefreshList] = useState([]);
   
+  // useEffect(() => {
+  //   setRefreshList(watchList);
+  // }, [watchList]);
+
   useEffect(() => {
     // Store the list of symbol hisotry into state
     Promise.all(getStocksDetail(ServerURL, watchList))
-    .then(stocks => setState(stocks))
-    .catch(e => setError(e));
+      .then(stocks => setState(stocks))
+      .catch(e => setError(e));
   }, [watchList]);
 
   if (error) {
@@ -160,7 +195,7 @@ export default function StocksScreen({route, navigation}) {
   
   return (
     <View style={styles.container}>
-      <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
+      <StockList data={state} selectedStock={value => setSelectedStock(value)} refreshList={value => setRefreshList(value)}/>
       {selectedStock && Object.keys(selectedStock).length === 0? null : <TabBarInfo data={selectedStock}/>}
       {state.length === 0 && <Text style={styles.emptyLabel}>No stocks currently added.</Text>}
     </View>
@@ -176,7 +211,6 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1,
   },
-
   emptyLabel: {
     flex: 1,
     color: "white",
@@ -184,7 +218,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontSize: scaleSize(20),
   },
-
   // Table Cell Properties
   item: {
     flex: 1,
@@ -195,33 +228,62 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopWidth: 0.2,
     borderTopColor: "grey",
-  }, 
-  label: {
+  },
+  rowColumnLeft: {
+    flex: 1.2,
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  rowColumnRight: {
     flex: 1,
-    fontSize: scaleSize(20),
+    flexDirection: "column",
+  },
+  rightLabel: {
+    flex: 1,
+    fontSize: scaleSize(17),
     textAlign: "left",
     color: "white",
     justifyContent: "center",
-  },
-  labelRight: {
+    textAlignVertical: "center",
     textAlign: "right",
+    paddingRight: 2,
+  },
+  symbolTitle: {
+    flex: 1,
+    color: "white",
+    fontSize: scaleSize(17),
+    textAlign: "left",
+  },
+  companyName: {
+    flex: 1,
+    color: "grey",
+    fontSize: scaleSize(15),
+  },
+  glLabel: {
+    fontSize: scaleSize(15),
   },
   gainLoss: {
     flex: 0.7,
     alignItems: "flex-end",
     justifyContent: "center",
-    marginLeft: 20,
-    paddingHorizontal: 8,
-    paddingVertical: 7,
-    borderRadius: 10,
+    marginLeft: 30,
+    paddingHorizontal: 3,
+    paddingVertical: 5,
+    borderRadius: 6,
   },
   percentageGain: {
-    backgroundColor: "#77D572",
+    backgroundColor: "#00C058",
   },
   percentageLoss: {
-    backgroundColor: "#EC4B3D",
+    backgroundColor: "#FF3130",
   },
-
+  // Line chart
+  lineChart: {
+    width: "100%",
+    height: "100%",
+  }, 
   // Tab bar information properties
   tabBarInfoContainer: {
     flex: 0.3,
