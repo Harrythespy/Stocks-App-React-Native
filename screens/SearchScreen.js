@@ -66,7 +66,6 @@ function StockList(props) {
         data={props.data}
         keyExtractor={(item) => item.symbol}
         renderItem={({item}) => (
-          
           <TouchableOpacity style={styles.item} onPress={() => pressHandler(item.symbol)}>
             <Text>
               <Text style={styles.symbolLabel}>{item.symbol}</Text>

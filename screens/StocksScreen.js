@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, /* include other react-native components here as needed */ 
 RefreshControl,
-AsyncStorage} from 'react-native';
+AsyncStorage,
+Dimensions} from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
+import { VictoryTheme, VictoryChart, VictoryLine } from 'victory-native';
 // FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
 function getStocksDetail(serverURL, symbols) {
   // Fetch each symbol in watchlist from the server url
@@ -28,18 +30,25 @@ function getStocksDetail(serverURL, symbols) {
   );
 }
 function StockChart(props) {
-  const data = {
-    datasets: [
-      {
-        data: props.data.map(history => history.close),
-      }
-    ]
+  const closes = props.data.map(history => history.close);
+  const gainLoss = () => {
+    const value = ((props.data[0].close - props.data[0].open)/props.data[0].open*100).toFixed(2);
+    if(value > 0) {
+      return "#00C058";
+    } else {
+      return "#FF3130";
+    }
   };
-
-  console.log(data);
   return(
-    <View style={styles.lineChart}>
-    
+    <View>
+      <VictoryLine
+        style={{
+          data: { stroke: gainLoss },
+        }}
+        width={180}
+        height={55}
+        data={closes}
+      />
     </View>
   );
 }
@@ -110,8 +119,8 @@ function StockList(props) {
                   <Text style={styles.companyName} numberOfLines={1}>{item[0].name}</Text>
                 </View>
                 <View style={styles.rowColumnRight}>
-                  <StockChart data={item}/>
-                </View> 
+                  <StockChart data={item}/> 
+                </View>
                 <View style={styles.rowColumnRight}>
                   <Text style={styles.rightLabel}>{item[0].close}</Text>
                   {PGL(item[0])}
@@ -230,14 +239,18 @@ const styles = StyleSheet.create({
     borderTopColor: "grey",
   },
   rowColumnLeft: {
-    flex: 1.2,
+    flex: 0.35,
     flexDirection: "column",
     alignContent: "center",
     justifyContent: "center",
     overflow: "hidden",
   },
+  lineChart: {
+    flex: 0.35,
+    flexDirection: "column",
+  },
   rowColumnRight: {
-    flex: 1,
+    flex: 0.3,
     flexDirection: "column",
   },
   rightLabel: {
