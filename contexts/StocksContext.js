@@ -4,10 +4,10 @@ import { AsyncStorage } from "react-native";
 const StocksContext = React.createContext();
 
 export const StocksProvider = ({ children }) => {
-  const [state, setState] = useState([]);
+  const [state, setState, refreshWatchlist] = useState([]);
 
   return (
-    <StocksContext.Provider value={[state, setState]}>
+    <StocksContext.Provider value={[state, setState, refreshWatchlist]}>
       {children}
     </StocksContext.Provider>
   );
@@ -36,17 +36,20 @@ export const useStocksContext = () => {
         prev = prev.concat(newSymbol);
         return [...prev];
       };
+      setState(newState(state));
       try {
         // store the list to local storage.
         AsyncStorage.setItem("log", JSON.stringify(newState(state)));
-        setState(newState(state));
       } catch {
         alert("There was an error saving.");
       }
     } else {
       alert("The selected stock has been added already.");
-      
     }
+  }
+
+  function refreshWatchlist() {
+    loadFromDisk();
   }
 
   useEffect(() => {
@@ -54,5 +57,5 @@ export const useStocksContext = () => {
     loadFromDisk();
   }, []);
 
-  return { ServerURL: 'http://131.181.190.87:3001', watchList: state,  addToWatchlist };
+  return { ServerURL: 'http://131.181.190.87:3001', watchList: state,  addToWatchlist, refreshWatchlist };
 };

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableOpacity, /* include other react-native components here as needed */ 
 RefreshControl,
-AsyncStorage,
-Dimensions} from 'react-native';
+AsyncStorage,} from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
-import { VictoryTheme, VictoryChart, VictoryLine } from 'victory-native';
+import { VictoryLine } from 'victory-native';
+import { LineChart } from 'react-native-svg-charts';
+
 // FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
 function getStocksDetail(serverURL, symbols) {
   // Fetch each symbol in watchlist from the server url
@@ -32,13 +33,10 @@ function getStocksDetail(serverURL, symbols) {
 function StockChart(props) {
   const closes = props.data.map(history => history.close);
   const gainLoss = () => {
-    const value = ((props.data[0].close - props.data[0].open)/props.data[0].open*100).toFixed(2);
-    if(value > 0) {
-      return "#00C058";
-    } else {
-      return "#FF3130";
-    }
+    const value = ((props.data[0].close - props.data[0].open) / props.data[0].open * 100).toFixed(2);
+    return value > 0? "#00C058" : "#FF3130";
   };
+  
   return(
     <View>
       <VictoryLine
@@ -46,7 +44,7 @@ function StockChart(props) {
           data: { stroke: gainLoss },
         }}
         width={180}
-        height={55}
+        height={50}
         data={closes}
       />
     </View>
@@ -55,12 +53,7 @@ function StockChart(props) {
 
 function StockList(props) {
   const [refresh, setRefresh] = useState(false);
-  const [refreshList, setRefreshList] = useState([]);
-  // Get the latest history of each stock
-  // const latestHisotry = props.data.map( stock => {
-  //   return stock[0];
-  // });
-
+  const { refreshWatchlist } = useStocksContext();
   const pressHandler = (stock) => {
     // Handle the onPress event on the list
     if (props.selectedStock) {
@@ -68,23 +61,15 @@ function StockList(props) {
     }
   }
   
-  const refreshHandler = async() => {
+  const refreshHandler = () => {
     setRefresh(true);
-    console.log("Refresh");
-    // try {
-    //   const dataFromDisk = await AsyncStorage.getItem("log");
-    //   if (dataFromDisk != null) setRefreshList(JSON.parse(dataFromDisk));
-    // } catch {
-    //   alert("Disk corrupted");
-    // }
-    // console.log(refreshList);
-    // if (props.refreshList) props.refreshList(refreshList);
+    refreshWatchlist();
     setRefresh(false);
   };
 
   const PGL = (item) => {
     // Rounding the number to keep only two decimals
-    var value = ((item.close-item.open)/item.open*100).toFixed(2);
+    var value = ((item.close - item.open) / item.open * 100).toFixed(2);
     if (value > 0 ){
       // If the value is greater than 0, return percentage gain
       return (
@@ -239,14 +224,14 @@ const styles = StyleSheet.create({
     borderTopColor: "grey",
   },
   rowColumnLeft: {
-    flex: 0.35,
+    flex: 0.4,
     flexDirection: "column",
     alignContent: "center",
     justifyContent: "center",
     overflow: "hidden",
   },
   lineChart: {
-    flex: 0.35,
+    flex: 0.3,
     flexDirection: "column",
   },
   rowColumnRight: {
