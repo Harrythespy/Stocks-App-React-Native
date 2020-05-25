@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "IFN666 Stocks",
-    "slug": "IFN666Stocks",
+    "name": "N10298851_IFN666_Assignment2",
+    "slug": "n10298851_ifn666_assignment2",
     "platforms": [
       "ios",
       "android",
@@ -25,6 +25,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Stock Market App for IFN666 at QUT"
+    "description": "Stock Market App for IFN666 at QUT",
+    "githubUrl": "https://github.com/Harrythespy/React-Native-Stocks-App"
   }
 }

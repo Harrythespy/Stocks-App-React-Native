@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity, /* include other react-native components here as needed */ 
-RefreshControl,
-AsyncStorage,} from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { useStocksContext } from '../contexts/StocksContext';
 import { scaleSize } from '../constants/Layout';
 import { VictoryLine } from 'victory-native';
-import { LineChart } from 'react-native-svg-charts';
 
 // FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
 function getStocksDetail(serverURL, symbols) {
