@@ -166,16 +166,19 @@ export default function StocksScreen({route, navigation}) {
   const [state, setState] = useState([]);
   const [error, setError] = useState(null);
   const [selectedStock, setSelectedStock] = useState({});
-  const [refreshList, setRefreshList] = useState([]);
-  
-  // useEffect(() => {
-  //   setRefreshList(watchList);
-  // }, [watchList]);
-
   useEffect(() => {
     // Store the list of symbol hisotry into state
     Promise.all(getStocksDetail(ServerURL, watchList))
-      .then(stocks => setState(stocks))
+      .then(stocks => {
+        // refresh the state
+        setState(stocks);
+        if (watchList.length != 0) {
+          // refresh the selected stock
+          setSelectedStock(stocks[0][0]);
+        } else {
+          setSelectedStock({});
+        }
+      })
       .catch(e => setError(e));
   }, [watchList]);
 
@@ -186,7 +189,7 @@ export default function StocksScreen({route, navigation}) {
   
   return (
     <View style={styles.container}>
-      <StockList data={state} selectedStock={value => setSelectedStock(value)} refreshList={value => setRefreshList(value)}/>
+      <StockList data={state} selectedStock={value => setSelectedStock(value)}/>
       {selectedStock && Object.keys(selectedStock).length === 0? null : <TabBarInfo data={selectedStock}/>}
       {state.length === 0 && <Text style={styles.emptyLabel}>No stocks currently added.</Text>}
     </View>

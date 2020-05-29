@@ -23,7 +23,7 @@ export default function BottomTabNavigator({ navigation, route }) {
           <Button 
             onPress={async() => {
               await AsyncStorage.setItem("log", JSON.stringify([]));
-              alert("Stocks have been removed.");
+              alert("Stocks have been removed. \n Please pull to refresh list.");
             }} title="Delete" />
         ),
       });
