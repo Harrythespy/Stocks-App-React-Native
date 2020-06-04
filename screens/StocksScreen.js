@@ -127,7 +127,7 @@ function TabBarInfo(props) {
 
   return (
     <View style={styles.tabBarInfoContainer}>
-      <View style={styles.companyRow}>
+      <View style={styles.row}>
         <Text style={styles.company}>{props.data.name}</Text>
       </View>
       <View style={styles.row}>
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   }, 
   // Tab bar information properties
   tabBarInfoContainer: {
-    flex: 0.3,
+    flex: 0.5,
     flexDirection: "column",
     bottom: 0,
     left: 0,
@@ -309,12 +309,6 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0
   },
-  companyRow: {
-    flex: 1.2, 
-    padding: 8,
-    borderBottomWidth: 0.4,
-    borderBottomColor: "grey",
-  },
   company: {
     flex: 1,
     width: "100%",
@@ -322,7 +316,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     fontWeight: "700",
-    fontSize: scaleSize(19),
+    fontSize: scaleSize(20),
   },
   row: {
     flex: 1, 
