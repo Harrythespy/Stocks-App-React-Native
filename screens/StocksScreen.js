@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   }, 
   // Tab bar information properties
   tabBarInfoContainer: {
-    flex: 0.5,
+    flex: 0.55,
     flexDirection: "column",
     bottom: 0,
     left: 0,
