@@ -43,14 +43,13 @@ expo start
 
 ## Screenshots of the Application
 <img src="/Screenshots/EmptyWatchList.png" data-canonical-src="/Screenshots/EmptyWatchList.png" width="200" height="400" />
-![Empty Watchlist](/Screenshots/EmptyWatchList.png)
-![Empty Search Screen](/Screenshots/EmptySearchScreen.png | width=100)
-![Search Screen Company](/Screenshots/SearchByCompanyName.png | width=100)
-![Search Screen Symbol](/Screenshots/SearchByStockSymbol.png | width=100)
-![Scaled Font Size](/Screenshots/ScaleFontSize.png | width=100)
-![Stock Screen](/Screenshots/StockScreen.png | width=100)
-![Android](/Screenshots/RunOnAndroid.JPG | width=100)
-![DeleteAlert](/Screenshots/DeleteAlert.png | width=100)
+<img src="/Screenshots/EmptySearchScreen.png" data-canonical-src="/Screenshots/EmptySearchScreen.png" width="200" height="400" />
+<img src="/Screenshots/SearchByCompanyName.png" data-canonical-src="/Screenshots/SearchByCompanyName.png" width="200" height="400" />
+<img src="/Screenshots/SearchByStockSymbol.png" data-canonical-src="/Screenshots/SearchByStockSymbol.png" width="200" height="400" />
+<img src="/Screenshots/ScaleFontSize.png" data-canonical-src="/Screenshots/ScaleFontSize.png" width="200" height="400" />
+<img src="/Screenshots/StockScreen.png" data-canonical-src="/Screenshots/StockScreen.png" width="200" height="400" />
+<img src="/Screenshots/RunOnAndroid.JPG" data-canonical-src="/Screenshots/RunOnAndroid.JPG" width="200" height="400" />
+<img src="/Screenshots/DeleteAlert.png" data-canonical-src="/Screenshots/DeleteAlert.png" width="200" height="400" />
 
 ## Author
 This Application is developed by **Harry Shen**.
