@@ -42,7 +42,7 @@ expo start
 * [Expo](https://docs.expo.io) - Expo is a framework and a platform for universal React applications.
 
 ## Screenshots of the Application
-![Empty Watchlist](/Screenshots/EmptyWatchList.png | width=100)
+![Empty Watchlist](/Screenshots/EmptyWatchList.png)
 ![Empty Search Screen](/Screenshots/EmptySearchScreen.png | width=100)
 ![Search Screen Company](/Screenshots/SearchByCompanyName.png | width=100)
 ![Search Screen Symbol](/Screenshots/SearchByStockSymbol.png | width=100)
