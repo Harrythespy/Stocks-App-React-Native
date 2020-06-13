@@ -42,7 +42,14 @@ expo start
 * [Expo](https://docs.expo.io) - Expo is a framework and a platform for universal React applications.
 
 ## Screenshots of the Application
+![Empty Watchlist](/Screenshots/EmptyWatchList.jpg?raw=true "Stock Screen")
+![Empty Search Screen](/Screenshots/EmptySearchScreen.jpg?raw=true "Stock Screen")
+![Search Screen Company](/Screenshots/SearchByCompanyName.png?raw=true "Stock Screen")
+![Search Screen Symbol](/Screenshots/SearchByStockSymbol.png?raw=true "Stock Screen")
+![Scaled Font Size](/Screenshots/ScaleFontSize.png?raw=true "Stock Screen")
 ![Stock Screen](/Screenshots/StockScreen.png?raw=true "Stock Screen")
+![Android](/Screenshots/RunOnAndroid.jpg?raw=true "Stock Screen")
+![DeleteAlert](/Screenshots/DeleteAlert.jpg?raw=true "Stock Screen")
 
 ## Author
 This Application is developed by **Harry Shen**.
