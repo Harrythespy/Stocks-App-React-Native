@@ -42,6 +42,7 @@ expo start
 * [Expo](https://docs.expo.io) - Expo is a framework and a platform for universal React applications.
 
 ## Screenshots of the Application
+<img src="/Screenshots/EmptyWatchList.png" data-canonical-src="/Screenshots/EmptyWatchList.png" width="200" height="400" />
 ![Empty Watchlist](/Screenshots/EmptyWatchList.png)
 ![Empty Search Screen](/Screenshots/EmptySearchScreen.png | width=100)
 ![Search Screen Company](/Screenshots/SearchByCompanyName.png | width=100)
