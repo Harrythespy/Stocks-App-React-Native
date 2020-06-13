@@ -42,7 +42,7 @@ expo start
 * [Expo](https://docs.expo.io) - Expo is a framework and a platform for universal React applications.
 
 ## Screenshots of the Application
-![Stock Screen](/Stocks-App-React-Native/Stock App Screenshots/Simulator Screen Shot - iPhone 11 Pro Max - 2020-05-29 at 23.40.51.png?raw=true "Stock Screen")
+![Stock Screen](/Stocks-App-React-Native/Screenshots/StockScreen.png?raw=true "Stock Screen")
 
 ## Author
 This Application is developed by **Harry Shen**.
