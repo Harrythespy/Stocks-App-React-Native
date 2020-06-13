@@ -42,14 +42,14 @@ expo start
 * [Expo](https://docs.expo.io) - Expo is a framework and a platform for universal React applications.
 
 ## Screenshots of the Application
-![Empty Watchlist](/Screenshots/EmptyWatchList.png?raw=true "Stock Screen")
-![Empty Search Screen](/Screenshots/EmptySearchScreen.png?raw=true "Stock Screen")
-![Search Screen Company](/Screenshots/SearchByCompanyName.png?raw=true "Stock Screen")
-![Search Screen Symbol](/Screenshots/SearchByStockSymbol.png?raw=true "Stock Screen")
-![Scaled Font Size](/Screenshots/ScaleFontSize.png?raw=true "Stock Screen")
-![Stock Screen](/Screenshots/StockScreen.png?raw=true "Stock Screen")
-![Android](/Screenshots/RunOnAndroid.JPG?raw=true "Stock Screen")
-![DeleteAlert](/Screenshots/DeleteAlert.png?raw=true "Stock Screen")
+![Empty Watchlist](/Screenshots/EmptyWatchList.png?raw=true "Stock Screen" | height=300)
+![Empty Search Screen](/Screenshots/EmptySearchScreen.png?raw=true "Stock Screen" | height=300)
+![Search Screen Company](/Screenshots/SearchByCompanyName.png?raw=true "Stock Screen" | height=300)
+![Search Screen Symbol](/Screenshots/SearchByStockSymbol.png?raw=true "Stock Screen" | height=300)
+![Scaled Font Size](/Screenshots/ScaleFontSize.png?raw=true "Stock Screen" | height=300)
+![Stock Screen](/Screenshots/StockScreen.png?raw=true "Stock Screen" | height=300)
+![Android](/Screenshots/RunOnAndroid.JPG?raw=true "Stock Screen" | height=300)
+![DeleteAlert](/Screenshots/DeleteAlert.png?raw=true "Stock Screen" | height=300)
 
 ## Author
 This Application is developed by **Harry Shen**.
